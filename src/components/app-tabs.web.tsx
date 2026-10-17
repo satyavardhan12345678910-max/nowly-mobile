@@ -33,13 +33,16 @@ export default function AppTabs() {
   );
 }
 
-export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
+export function TabButton({ children, isFocused, ref, ...props }: TabTriggerSlotProps & { ref?: any }) {
   return (
-    <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
+    <Pressable {...(props as any)} style={({ pressed }) => pressed && styles.pressed}>
       <ThemedView
-        type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
+        variant={isFocused ? 'surfaceHighlighted' : 'backgroundElement'}
         style={styles.tabButtonView}>
-        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
+        <ThemedText
+          variant="bodySmall"
+          themeColor={isFocused ? 'primary' : 'textSecondary'}
+          weight={isFocused ? 'semiBold' : 'regular'}>
           {children}
         </ThemedText>
       </ThemedView>
@@ -54,8 +57,8 @@ export function CustomTabList(props: TabListProps) {
   return (
     <View {...props} style={styles.tabListContainer}>
       <ThemedView type="backgroundElement" style={styles.innerContainer}>
-        <ThemedText type="smallBold" style={styles.brandText}>
-          Expo Starter
+        <ThemedText variant="label" style={styles.brandText}>
+          Nowly
         </ThemedText>
 
         {props.children}

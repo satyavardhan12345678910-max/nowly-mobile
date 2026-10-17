@@ -1,98 +1,145 @@
 import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { AnimatedIcon } from '@/components/animated-icon';
+import { Card } from '@/components/card';
 import { HintRow } from '@/components/hint-row';
+import { ProgressIndicator } from '@/components/progress-indicator';
+import { ScreenContainer } from '@/components/screen-container';
+import { SectionHeader } from '@/components/section-header';
+import { ThemedButton } from '@/components/themed-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { ThemedTextInput } from '@/components/themed-text-input';
 import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
+import { useDesignTokens } from '@/hooks/use-theme';
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
+    return <ThemedText variant="caption">use browser devtools</ThemedText>;
   }
   if (Device.isDevice) {
     return (
-      <ThemedText type="small">
+      <ThemedText variant="caption">
         shake device or press <ThemedText type="code">m</ThemedText> in terminal
       </ThemedText>
     );
   }
   const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
   return (
-    <ThemedText type="small">
+    <ThemedText variant="caption">
       press <ThemedText type="code">{shortcut}</ThemedText>
     </ThemedText>
   );
 }
 
 export default function HomeScreen() {
+  const { colors } = useDesignTokens();
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
+    <ScreenContainer scrollable withBottomTab padding="md">
+      <View style={styles.content}>
+        {/* Hero Section */}
+        <View style={styles.heroSection}>
           <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
+          <SectionHeader
+            title="Nowly"
+            subtitle="A calmer social circle. White-first design with black typography and mint green highlights."
+            size="lg"
+            style={styles.header}
+          />
+        </View>
+
+        {/* Brand System Status Card */}
+        <Card variant="neutral" padding="md" radius="xl" style={styles.card}>
+          <View style={styles.progressHeader}>
+            <ThemedText variant="label">Design System Status</ThemedText>
+            <ThemedText variant="caption" themeColor="accent" weight="semiBold">
+              Ready
+            </ThemedText>
+          </View>
+          <ProgressIndicator progress={100} height={6} />
+          <ThemedText variant="bodySmall" themeColor="textSecondary">
+            All brand design tokens, typography, radii, and core primitives are active.
           </ThemedText>
-        </ThemedView>
+        </Card>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+        {/* Interactive Components Demo */}
+        <Card variant="outlined" padding="lg" radius="xl" style={styles.card}>
+          <ThemedText variant="h3">Get Started</ThemedText>
+          <ThemedText variant="bodySmall" themeColor="textSecondary">
+            Sign in with your phone or explore existing components.
+          </ThemedText>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+          <ThemedTextInput
+            label="Phone Number"
+            placeholder="+1 (555) 000-0000"
+            keyboardType="phone-pad"
+            hint="We'll send a 6-digit verification code"
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+
+          <View style={styles.buttonGroup}>
+            <ThemedButton title="Continue" variant="primary" fullWidth />
+            <ThemedButton title="Explore Features" variant="secondary" fullWidth />
+          </View>
+        </Card>
+
+        {/* Development Environment Hints */}
+        <Card variant="subtle" padding="md" radius="xl" style={styles.card}>
+          <ThemedText variant="label" style={styles.cardTitle}>
+            Development Setup
+          </ThemedText>
+          <View style={styles.stepContainer}>
+            <HintRow
+              title="Screen file"
+              hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+            />
+            <HintRow title="Dev tools" hint={getDevMenuHint()} />
+            <HintRow
+              title="Fresh start"
+              hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+            />
+          </View>
+        </Card>
 
         {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      </View>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
+  content: {
+    gap: Spacing.lg,
+    paddingVertical: Spacing.md,
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    width: '100%',
   },
   heroSection: {
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    gap: Spacing.md,
+    width: '100%',
   },
-  title: {
-    textAlign: 'center',
+  header: {
+    alignItems: 'center',
   },
-  code: {
-    textTransform: 'uppercase',
+  card: {
+    gap: Spacing.md,
+  },
+  progressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  buttonGroup: {
+    gap: Spacing.sm,
+    marginTop: Spacing.xs,
+  },
+  cardTitle: {
+    marginBottom: Spacing.xs,
   },
   stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+    gap: Spacing.md,
   },
 });
+
