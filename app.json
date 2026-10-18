@@ -8,6 +8,7 @@
     "scheme": "nowly",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "bundleIdentifier": "com.psvxnjm.nowly",
       "icon": "./assets/expo.icon"
     },
     "android": {
@@ -33,7 +34,8 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
