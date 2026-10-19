@@ -1,4 +1,6 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import { useEffect } from 'react';
+import { requireOptionalNativeModule } from 'expo';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
@@ -16,6 +18,23 @@ function AppContent() {
   const isDark = colorScheme === 'dark';
   const theme = isDark ? Colors.dark : Colors.light;
   const { session } = useAuth();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    try {
+      const DevMenuPreferences = requireOptionalNativeModule('DevMenuPreferences') as
+        | { setPreferencesAsync: (prefs: { showFloatingActionButton: boolean }) => Promise<void> }
+        | undefined;
+      DevMenuPreferences?.setPreferencesAsync({
+        showFloatingActionButton: false,
+      });
+    } catch {
+      // DevMenuPreferences not present in web or standard builds
+    }
+  }, []);
+
+  const isDedicatedRoute =
+    pathname.startsWith('/onboarding') || pathname.startsWith('/auth');
 
   const navigationTheme = {
     ...(isDark ? DarkTheme : DefaultTheme),
@@ -34,7 +53,19 @@ function AppContent() {
     <ThemeProvider value={navigationTheme}>
       <StatusBar style={isDark ? 'light' : 'dark'} />
       <AnimatedSplashOverlay />
-      {session ? <AppTabs /> : <AuthScreen />}
+      {isDedicatedRoute ? (
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="onboarding/manifesto" />
+          <Stack.Screen name="onboarding/profile" />
+          <Stack.Screen name="onboarding/circle" />
+          <Stack.Screen name="onboarding/index" />
+          <Stack.Screen name="auth/callback" />
+        </Stack>
+      ) : session ? (
+        <AppTabs />
+      ) : (
+        <AuthScreen />
+      )}
     </ThemeProvider>
   );
 }
@@ -46,5 +77,6 @@ export default function RootLayout() {
     </AuthProvider>
   );
 }
+
 
 

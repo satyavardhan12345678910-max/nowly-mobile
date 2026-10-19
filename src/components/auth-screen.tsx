@@ -13,7 +13,9 @@ import {
   View,
 } from 'react-native';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 import {
   resetPasswordForEmail,
@@ -291,7 +293,16 @@ export function AuthScreen() {
                 <Text style={styles.subtitle}>
                   See what your close friends are{'\n'}doing right now.
                 </Text>
+                <Pressable
+                  onPress={() => router.push('/onboarding/manifesto')}
+                  style={styles.manifestoPill}
+                  accessibilityRole="button"
+                  accessibilityLabel="Read the manifesto">
+                  <View style={styles.manifestoPillDot} />
+                  <Text style={styles.manifestoPillText}>THE MANIFESTO  →</Text>
+                </Pressable>
               </View>
+
 
               {/* LOGIN / SIGN-UP SEGMENTED CONTROL */}
               <View style={styles.segmentedContainer}>
@@ -623,6 +634,31 @@ const styles = StyleSheet.create({
     color: '#737B8C',
     textAlign: 'center',
   },
+  manifestoPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E6FAF2',
+    borderColor: '#A7F3D0',
+    borderWidth: 1,
+    borderRadius: 9999,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    marginTop: 10,
+  },
+  manifestoPillDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#10B981',
+    marginRight: 6,
+  },
+  manifestoPillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#065F46',
+    letterSpacing: 0.6,
+  },
+
 
   /* SEGMENTED CONTROL */
   segmentedContainer: {

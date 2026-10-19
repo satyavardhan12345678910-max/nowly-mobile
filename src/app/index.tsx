@@ -11,9 +11,12 @@ import { ThemedButton } from '@/components/themed-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedTextInput } from '@/components/themed-text-input';
 import { WebBadge } from '@/components/web-badge';
+import { router } from 'expo-router';
+
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/context/auth-context';
 import { useDesignTokens } from '@/hooks/use-theme';
+
 
 
 function getDevMenuHint() {
@@ -90,7 +93,27 @@ export default function HomeScreen() {
         )}
 
 
+        {/* Onboarding Manifesto Card */}
+        <Card variant="mint" padding="md" radius="xl" style={styles.card}>
+          <View style={styles.progressHeader}>
+            <ThemedText variant="label">Nowly Manifesto</ThemedText>
+            <ThemedText variant="caption" themeColor="accentDark" weight="semiBold">
+              Onboarding Screen
+            </ThemedText>
+          </View>
+          <ThemedText variant="bodySmall" themeColor="textSecondary">
+            Explore the newly built Manifesto onboarding screen and anti-doomscrolling philosophy.
+          </ThemedText>
+          <ThemedButton
+            title="Open Manifesto Screen  →"
+            variant="primary"
+            size="sm"
+            onPress={() => router.push('/onboarding/manifesto')}
+          />
+        </Card>
+
         {/* Development Environment Hints */}
+
         <Card variant="subtle" padding="md" radius="xl" style={styles.card}>
           <ThemedText variant="label" style={styles.cardTitle}>
             Development Setup
