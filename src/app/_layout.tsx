@@ -63,6 +63,7 @@ function AppContent() {
           <Stack.Screen name="onboarding/manifesto" />
           <Stack.Screen name="onboarding/profile" />
           <Stack.Screen name="onboarding/circle" />
+          <Stack.Screen name="onboarding/intention" />
           <Stack.Screen name="onboarding/index" />
           <Stack.Screen name="auth/callback" />
         </Stack>

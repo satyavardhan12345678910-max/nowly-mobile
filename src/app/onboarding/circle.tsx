@@ -16,7 +16,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { Radii } from '@/design-system';
 import { useAuth } from '@/context/auth-context';
 
-// Bundled local high-res portrait assets for 100% reliable, instant offline rendering
+// Bundled local high-res portrait assets for reliable, instant offline rendering
 const LOCAL_AVATARS = {
   sophie: require('@/../assets/images/avatars/sophie.jpg'),
   rohan: require('@/../assets/images/avatars/rohan.jpg'),
@@ -40,7 +40,7 @@ export default function HowNowlyWorksScreen() {
   }, []);
 
   const handleNext = () => {
-    // Preserves existing flow; next onboarding step will be connected in future patch
+    router.push('/onboarding/intention');
   };
 
   const userAvatarSource = user?.user_metadata?.avatar_url
@@ -53,13 +53,13 @@ export default function HowNowlyWorksScreen() {
         contentContainerStyle={[
           styles.scrollContent,
           {
-            paddingTop: Math.max(insets.top + 6, 18),
-            paddingBottom: Math.max(insets.bottom + 14, 22),
+            paddingTop: Math.max(insets.top + 8, 20),
+            paddingBottom: Math.max(insets.bottom + 16, 24),
           },
         ]}
         showsVerticalScrollIndicator={false}
         bounces={false}>
-        {/* Top Header Bar */}
+        {/* 1. Header: Nowly Wordmark + 4 Progress Segments */}
         <View style={styles.topBar}>
           <Pressable
             onPress={() => router.back()}
@@ -69,7 +69,6 @@ export default function HowNowlyWorksScreen() {
             <Text style={styles.brandTitle}>Nowly</Text>
           </Pressable>
 
-          {/* 4-part Progress Indicator (1st active/black, remaining 3 light grey) */}
           <View style={styles.progressBar} accessibilityLabel="Step 1 of 4">
             <View style={[styles.progressSegment, styles.progressSegmentActive]} />
             <View style={styles.progressSegment} />
@@ -78,22 +77,22 @@ export default function HowNowlyWorksScreen() {
           </View>
         </View>
 
-        {/* Heading & Subtitle */}
+        {/* 2. Heading Section */}
         <View style={styles.headerSection}>
           <Text style={styles.title}>How Nowly works.</Text>
           <Text style={styles.subtitle}>Stay close with your people, effortlessly.</Text>
         </View>
 
-        {/* Feature Cards List */}
+        {/* 3. Feature Cards List */}
         <View style={styles.cardsContainer}>
           {/* ========================================================= */}
           {/* CARD 1 — See */}
           {/* ========================================================= */}
           <View style={styles.card}>
-            {/* Left: Explanatory Content */}
+            {/* Left Column (36% width) */}
             <View style={styles.cardLeft}>
               <View style={[styles.iconBadge, styles.iconBadgeMint]}>
-                <Feather name="eye" size={21} color="#05C189" />
+                <Feather name="eye" size={24} color="#08C58D" />
               </View>
               <Text style={styles.cardTitle}>See</Text>
               <Text style={styles.cardDescription}>
@@ -101,7 +100,7 @@ export default function HowNowlyWorksScreen() {
               </Text>
             </View>
 
-            {/* Right: Enlarged Nowly Friends Preview */}
+            {/* Right Preview (Nowly Friends Interface) */}
             <View style={styles.cardRight}>
               <View style={styles.previewContainer}>
                 {/* Header: "Nowly" + search and plus controls */}
@@ -115,7 +114,7 @@ export default function HowNowlyWorksScreen() {
                   </View>
                 </View>
 
-                {/* Friends Row with Larger Avatars */}
+                {/* Friends Row with 44dp Portraits */}
                 <View style={styles.friendsRow}>
                   {/* Add Friend */}
                   <View style={styles.friendCol}>
@@ -183,10 +182,10 @@ export default function HowNowlyWorksScreen() {
           {/* CARD 2 — Update */}
           {/* ========================================================= */}
           <View style={styles.card}>
-            {/* Left: Explanatory Content */}
+            {/* Left Column (36% width) */}
             <View style={styles.cardLeft}>
               <View style={[styles.iconBadge, styles.iconBadgeLavender]}>
-                <Feather name="plus" size={24} color="#8B5CF6" />
+                <Feather name="plus" size={26} color="#9562F5" />
               </View>
               <Text style={styles.cardTitle}>Update</Text>
               <Text style={styles.cardDescription}>
@@ -194,9 +193,9 @@ export default function HowNowlyWorksScreen() {
               </Text>
             </View>
 
-            {/* Right: Message Composer Preview */}
+            {/* Right Preview (Message Composer) */}
             <View style={styles.cardRight}>
-              <View style={styles.previewContainer}>
+              <View style={[styles.previewContainer, styles.previewContainerUpdate]}>
                 {/* Input Bar with User Portrait */}
                 <View style={styles.composerRow}>
                   <Image
@@ -206,14 +205,14 @@ export default function HowNowlyWorksScreen() {
                     transition={150}
                   />
 
-                  {/* Pill input container */}
+                  {/* Pill input container with fully contained send button */}
                   <View style={styles.composerPill}>
                     <View style={styles.composerTextWrapper}>
                       <Text style={styles.composerText}>At the gym 💪</Text>
                       <View style={styles.composerCursor} />
                     </View>
                     <View style={styles.sendButtonCircle}>
-                      <Feather name="arrow-up" size={14} color="#FFFFFF" />
+                      <Feather name="arrow-up" size={13} color="#FFFFFF" />
                     </View>
                   </View>
                 </View>
@@ -221,13 +220,13 @@ export default function HowNowlyWorksScreen() {
                 {/* Bottom Controls: Image, Smile, Pin, Aa */}
                 <View style={styles.composerControlsRow}>
                   <View style={styles.composerControlBtn}>
-                    <Feather name="image" size={16} color="#6B7280" />
+                    <Feather name="image" size={17} color="#6B7280" />
                   </View>
                   <View style={styles.composerControlBtn}>
-                    <Feather name="smile" size={16} color="#6B7280" />
+                    <Feather name="smile" size={17} color="#6B7280" />
                   </View>
                   <View style={styles.composerControlBtn}>
-                    <Feather name="map-pin" size={15} color="#6B7280" />
+                    <Feather name="map-pin" size={16} color="#6B7280" />
                   </View>
                   <View style={styles.composerControlBtn}>
                     <Text style={styles.composerAaText}>Aa</Text>
@@ -241,10 +240,10 @@ export default function HowNowlyWorksScreen() {
           {/* CARD 3 — Build */}
           {/* ========================================================= */}
           <View style={styles.card}>
-            {/* Left: Explanatory Content */}
+            {/* Left Column (36% width) */}
             <View style={styles.cardLeft}>
               <View style={[styles.iconBadge, styles.iconBadgePeach]}>
-                <Ionicons name="stats-chart" size={21} color="#F97316" />
+                <Ionicons name="stats-chart" size={24} color="#FF913D" />
               </View>
               <Text style={styles.cardTitle}>Build</Text>
               <Text style={styles.cardDescription}>
@@ -252,9 +251,9 @@ export default function HowNowlyWorksScreen() {
               </Text>
             </View>
 
-            {/* Right: Weekly Activity Chart Preview */}
+            {/* Right Preview (Weekly Activity Chart) */}
             <View style={styles.cardRight}>
-              <View style={styles.previewContainer}>
+              <View style={[styles.previewContainer, styles.previewContainerBuild]}>
                 <Text style={styles.chartTitle}>Your week</Text>
 
                 {/* 7-day Activity Chart */}
@@ -262,7 +261,7 @@ export default function HowNowlyWorksScreen() {
                   {/* Mon */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
-                      <View style={[styles.barFillPeach, { height: 18 }]} />
+                      <View style={[styles.barFillPeach, { height: 22 }]} />
                     </View>
                     <Text style={styles.dayLabel}>Mon</Text>
                   </View>
@@ -270,12 +269,12 @@ export default function HowNowlyWorksScreen() {
                   {/* Tue */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
-                      <View style={[styles.barFillPeach, { height: 30 }]} />
+                      <View style={[styles.barFillPeach, { height: 32 }]} />
                     </View>
                     <Text style={styles.dayLabel}>Tue</Text>
                   </View>
 
-                  {/* Wed (Vivid Orange Highlight) */}
+                  {/* Wed (Hero Highlight in Vivid Orange) */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
                       <View style={[styles.barFillOrange, { height: 52 }]} />
@@ -286,7 +285,7 @@ export default function HowNowlyWorksScreen() {
                   {/* Thu */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
-                      <View style={[styles.barFillPeach, { height: 24 }]} />
+                      <View style={[styles.barFillPeach, { height: 28 }]} />
                     </View>
                     <Text style={styles.dayLabel}>Thu</Text>
                   </View>
@@ -294,7 +293,7 @@ export default function HowNowlyWorksScreen() {
                   {/* Fri */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
-                      <View style={[styles.barFillPeach, { height: 18 }]} />
+                      <View style={[styles.barFillPeach, { height: 20 }]} />
                     </View>
                     <Text style={styles.dayLabel}>Fri</Text>
                   </View>
@@ -302,7 +301,7 @@ export default function HowNowlyWorksScreen() {
                   {/* Sat */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
-                      <View style={[styles.barFillPeach, { height: 40 }]} />
+                      <View style={[styles.barFillPeach, { height: 48 }]} />
                     </View>
                     <Text style={styles.dayLabel}>Sat</Text>
                   </View>
@@ -310,7 +309,7 @@ export default function HowNowlyWorksScreen() {
                   {/* Sun */}
                   <View style={styles.chartCol}>
                     <View style={styles.barTrack}>
-                      <View style={[styles.barFillPeach, { height: 26 }]} />
+                      <View style={[styles.barFillPeach, { height: 30 }]} />
                     </View>
                     <Text style={styles.dayLabel}>Sun</Text>
                   </View>
@@ -320,7 +319,7 @@ export default function HowNowlyWorksScreen() {
           </View>
         </View>
 
-        {/* Bottom Button positioned with exact relative margin */}
+        {/* 4. Next Button (Below cards in vertical flow) */}
         <View style={styles.bottomContainer}>
           <Pressable
             onPress={handleNext}
@@ -344,22 +343,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   scrollContent: {
-    paddingHorizontal: 18,
-    maxWidth: 440,
+    paddingHorizontal: 20,
     width: '100%',
     alignSelf: 'center',
   },
 
-  // Top Header Bar
+  // 1. Header Bar
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 6,
-    marginBottom: 14,
+    marginBottom: 20,
   },
   brandTitle: {
-    fontSize: 22,
+    fontSize: 23,
     fontWeight: '800',
     color: '#111113',
     letterSpacing: -0.4,
@@ -376,21 +374,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E7EB',
   },
   progressSegmentActive: {
-    width: 18,
+    width: 20,
     backgroundColor: '#111113',
   },
 
-  // Headings
+  // 2. Heading Section
   headerSection: {
-    marginBottom: 14,
+    marginBottom: 16,
   },
   title: {
-    fontSize: 32,
-    lineHeight: 38,
+    fontSize: 33,
+    lineHeight: 39,
     fontWeight: '800',
     color: '#111113',
     letterSpacing: -0.8,
-    marginBottom: 4,
+    marginBottom: 5,
   },
   subtitle: {
     fontSize: 16,
@@ -399,67 +397,81 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
 
-  // Cards List
+  // 3. Feature Cards (Vertical gap 16dp)
   cardsContainer: {
-    gap: 12,
-    marginBottom: 20,
+    gap: 16,
+    marginBottom: 24,
   },
   card: {
     backgroundColor: '#F8F9FA',
     borderRadius: 24,
     borderWidth: 1,
-    borderColor: '#EDF0F3',
-    padding: 12,
+    borderColor: '#F0F1F4',
+    padding: 13,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 11,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.03,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 1.5,
+      },
+    }),
   },
 
-  // Left Column
+  // Left Column (36% width)
   cardLeft: {
-    width: 92,
+    width: '36%',
+    minWidth: 0,
+    justifyContent: 'center',
   },
   iconBadge: {
-    width: 48,
-    height: 48,
-    borderRadius: 15,
+    width: 52,
+    height: 52,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
   },
   iconBadgeMint: {
-    backgroundColor: '#D7F7EB',
+    backgroundColor: '#DDF8EE',
   },
   iconBadgeLavender: {
-    backgroundColor: '#F3ECFE',
+    backgroundColor: '#F2EAFE',
   },
   iconBadgePeach: {
-    backgroundColor: '#FFF1E8',
+    backgroundColor: '#FFF0E7',
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: '800',
     color: '#111113',
     letterSpacing: -0.3,
     marginBottom: 3,
   },
   cardDescription: {
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: 12.5,
+    lineHeight: 17,
     color: '#8E95A5',
     fontWeight: '400',
   },
 
-  // Right Column Preview Card
+  // Right Column (64% width)
   cardRight: {
     flex: 1,
+    minWidth: 0,
   },
   previewContainer: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
     padding: 11,
     borderWidth: 1,
-    borderColor: '#F0F2F5',
+    borderColor: '#F0F1F4',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -471,6 +483,13 @@ const styles = StyleSheet.create({
         elevation: 1.5,
       },
     }),
+  },
+  previewContainerUpdate: {
+    paddingVertical: 12,
+    gap: 11,
+  },
+  previewContainerBuild: {
+    paddingVertical: 11,
   },
 
   // Card 1: See Preview Elements
@@ -534,9 +553,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -1,
     right: -1,
-    width: 9,
-    height: 9,
-    borderRadius: 4.5,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     borderWidth: 1.5,
     borderColor: '#FFFFFF',
   },
@@ -556,22 +575,22 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   friendStatus: {
-    fontSize: 8.5,
+    fontSize: 8,
     color: '#6B7280',
-    lineHeight: 11,
+    lineHeight: 10,
   },
   friendTime: {
-    fontSize: 8,
+    fontSize: 7.5,
     color: '#9CA3AF',
-    lineHeight: 10,
+    lineHeight: 9,
   },
   friendStatusPlaceholder: {
-    fontSize: 8.5,
-    lineHeight: 11,
-  },
-  friendTimePlaceholder: {
     fontSize: 8,
     lineHeight: 10,
+  },
+  friendTimePlaceholder: {
+    fontSize: 7.5,
+    lineHeight: 9,
   },
 
   // Card 2: Update Preview Elements
@@ -579,16 +598,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 10,
   },
   composerUserAvatar: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: '#E5E7EB',
   },
   composerPill: {
     flex: 1,
+    height: 38,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -596,30 +615,29 @@ const styles = StyleSheet.create({
     borderRadius: Radii.pill,
     borderWidth: 1,
     borderColor: '#E5E7EB',
-    paddingLeft: 10,
-    paddingRight: 4,
-    paddingVertical: 4,
+    paddingLeft: 11,
+    paddingRight: 5,
   },
   composerTextWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   composerText: {
-    fontSize: 11,
+    fontSize: 11.5,
     fontWeight: '500',
     color: '#111113',
   },
   composerCursor: {
     width: 1.5,
-    height: 13,
+    height: 14,
     backgroundColor: '#F59E0B',
     marginLeft: 2,
     borderRadius: 1,
   },
   sendButtonCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     backgroundColor: '#111113',
     alignItems: 'center',
     justifyContent: 'center',
@@ -628,12 +646,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 2,
+    paddingHorizontal: 1,
   },
   composerControlBtn: {
-    width: 36,
-    height: 32,
-    borderRadius: 9,
+    height: 34,
+    flex: 1,
+    marginHorizontal: 3,
+    borderRadius: 8,
     backgroundColor: '#F9FAFB',
     borderWidth: 1,
     borderColor: '#EEF0F3',
@@ -648,16 +667,16 @@ const styles = StyleSheet.create({
 
   // Card 3: Build Preview Elements
   chartTitle: {
-    fontSize: 10.5,
-    fontWeight: '500',
+    fontSize: 11,
+    fontWeight: '600',
     color: '#8E95A5',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   chartBarsRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    height: 58,
+    height: 54,
     paddingHorizontal: 2,
   },
   chartCol: {
@@ -665,40 +684,40 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   barTrack: {
-    height: 52,
+    height: 54,
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginBottom: 4,
   },
   barFillPeach: {
-    width: 13,
+    width: 14,
     borderRadius: 4,
-    backgroundColor: '#FFE5D6',
+    backgroundColor: '#FFE6D9',
   },
   barFillOrange: {
-    width: 13,
+    width: 14,
     borderRadius: 4,
-    backgroundColor: '#F97316',
+    backgroundColor: '#FF913D',
   },
   dayLabel: {
-    fontSize: 8,
+    fontSize: 8.5,
     color: '#9CA3AF',
     fontWeight: '500',
   },
   dayLabelHighlight: {
     color: '#111113',
-    fontWeight: '700',
+    fontWeight: '800',
   },
 
-  // Bottom Button
+  // 4. Next Button (66dp height, full-width pill, below cards)
   bottomContainer: {
     marginTop: 0,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   nextButton: {
     width: '100%',
-    height: 54,
-    borderRadius: Radii.pill,
+    height: 66,
+    borderRadius: 33,
     backgroundColor: '#111113',
     alignItems: 'center',
     justifyContent: 'center',
@@ -708,7 +727,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.99 }],
   },
   nextButtonText: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
     color: '#FFFFFF',
     letterSpacing: -0.2,
