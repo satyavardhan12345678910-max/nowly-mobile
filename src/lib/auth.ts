@@ -4,6 +4,38 @@ import * as Linking from 'expo-linking';
 
 WebBrowser.maybeCompleteAuthSession();
 
+function extractUrlParams(url: string): Record<string, string> {
+  const params: Record<string, string> = {};
+
+  // Extract query parameters (?...)
+  const questionIndex = url.indexOf('?');
+  if (questionIndex !== -1) {
+    const hashIndex = url.indexOf('#', questionIndex);
+    const queryString =
+      hashIndex !== -1
+        ? url.slice(questionIndex + 1, hashIndex)
+        : url.slice(questionIndex + 1);
+    const searchParams = new URLSearchParams(queryString);
+    searchParams.forEach((val, key) => {
+      params[key] = val;
+    });
+  }
+
+  // Extract hash fragment parameters (#...)
+  const hashIndex = url.indexOf('#');
+  if (hashIndex !== -1) {
+    const hashString = url.slice(hashIndex + 1);
+    const hashParams = new URLSearchParams(hashString);
+    hashParams.forEach((val, key) => {
+      if (!params[key]) {
+        params[key] = val;
+      }
+    });
+  }
+
+  return params;
+}
+
 export async function signInWithGoogle() {
   const redirectTo = Linking.createURL('auth/callback');
 
@@ -29,26 +61,56 @@ export async function signInWithGoogle() {
   );
 
   if (result.type !== 'success' || !result.url) {
-    return { success: false };
+    return {
+      success: false,
+      cancelled: result.type === 'cancel' || result.type === 'dismiss',
+    };
   }
 
-  const code = Linking.parse(result.url).queryParams?.code;
+  const params = extractUrlParams(result.url);
+  const errorDescription =
+    params.error_description || params.error;
 
-  if (typeof code !== 'string') {
-    throw new Error(
-      'Google sign-in did not return an authorization code.'
-    );
+  if (errorDescription) {
+    throw new Error(String(errorDescription));
   }
 
-  const { error: sessionError } =
-    await supabase.auth.exchangeCodeForSession(code);
+  const code = params.code;
 
-  if (sessionError) {
-    throw sessionError;
+  if (typeof code === 'string' && code.length > 0) {
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.exchangeCodeForSession(code);
+
+    if (sessionError) {
+      throw sessionError;
+    }
+
+    return { success: true, session: sessionData.session };
   }
 
-  return { success: true };
+  // Fallback: Check if session tokens were returned directly in URL fragment
+  const accessToken = params.access_token;
+  const refreshToken = params.refresh_token;
+
+  if (typeof accessToken === 'string' && typeof refreshToken === 'string') {
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
+
+    if (sessionError) {
+      throw sessionError;
+    }
+
+    return { success: true, session: sessionData.session };
+  }
+
+  throw new Error(
+    'Google sign-in did not return an authorization code or session tokens.'
+  );
 }
+
 
 export async function signInWithEmail(
   email: string,
@@ -67,6 +129,13 @@ export async function signUpWithEmail(
   return supabase.auth.signUp({
     email,
     password,
+  });
+}
+
+export async function resetPasswordForEmail(email: string) {
+  const redirectTo = Linking.createURL('auth/callback');
+  return supabase.auth.resetPasswordForEmail(email, {
+    redirectTo,
   });
 }
 

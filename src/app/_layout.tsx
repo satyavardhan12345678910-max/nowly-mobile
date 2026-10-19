@@ -5,14 +5,17 @@ import { useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import AppTabs from '@/components/app-tabs';
+import { AuthScreen } from '@/components/auth-screen';
 import { Colors } from '@/constants/theme';
+import { AuthProvider, useAuth } from '@/context/auth-context';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
+function AppContent() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const theme = isDark ? Colors.dark : Colors.light;
+  const { session } = useAuth();
 
   const navigationTheme = {
     ...(isDark ? DarkTheme : DefaultTheme),
@@ -31,8 +34,17 @@ export default function TabLayout() {
     <ThemeProvider value={navigationTheme}>
       <StatusBar style={isDark ? 'light' : 'dark'} />
       <AnimatedSplashOverlay />
-      <AppTabs />
+      {session ? <AppTabs /> : <AuthScreen />}
     </ThemeProvider>
   );
 }
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
 

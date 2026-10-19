@@ -12,7 +12,9 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedTextInput } from '@/components/themed-text-input';
 import { WebBadge } from '@/components/web-badge';
 import { Spacing } from '@/constants/theme';
+import { useAuth } from '@/context/auth-context';
 import { useDesignTokens } from '@/hooks/use-theme';
+
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -34,7 +36,9 @@ function getDevMenuHint() {
 }
 
 export default function HomeScreen() {
+
   const { colors } = useDesignTokens();
+  const { user, signOut } = useAuth();
 
   return (
     <ScreenContainer scrollable withBottomTab padding="md">
@@ -64,25 +68,27 @@ export default function HomeScreen() {
           </ThemedText>
         </Card>
 
-        {/* Interactive Components Demo */}
-        <Card variant="outlined" padding="lg" radius="xl" style={styles.card}>
-          <ThemedText variant="h3">Get Started</ThemedText>
-          <ThemedText variant="bodySmall" themeColor="textSecondary">
-            Sign in with your phone or explore existing components.
-          </ThemedText>
+        {/* Account / Session Card */}
+        {user && (
+          <Card variant="neutral" padding="md" radius="xl" style={styles.card}>
+            <View style={styles.progressHeader}>
+              <ThemedText variant="label">Authenticated Account</ThemedText>
+              <ThemedText variant="caption" themeColor="accent" weight="semiBold">
+                Active
+              </ThemedText>
+            </View>
+            <ThemedText variant="bodySmall" themeColor="textSecondary">
+              Logged in as: <ThemedText weight="semiBold">{user.email ?? 'Google User'}</ThemedText>
+            </ThemedText>
+            <ThemedButton
+              title="Sign Out"
+              variant="outline"
+              size="sm"
+              onPress={() => signOut()}
+            />
+          </Card>
+        )}
 
-          <ThemedTextInput
-            label="Phone Number"
-            placeholder="+1 (555) 000-0000"
-            keyboardType="phone-pad"
-            hint="We'll send a 6-digit verification code"
-          />
-
-          <View style={styles.buttonGroup}>
-            <ThemedButton title="Continue" variant="primary" fullWidth />
-            <ThemedButton title="Explore Features" variant="secondary" fullWidth />
-          </View>
-        </Card>
 
         {/* Development Environment Hints */}
         <Card variant="subtle" padding="md" radius="xl" style={styles.card}>
