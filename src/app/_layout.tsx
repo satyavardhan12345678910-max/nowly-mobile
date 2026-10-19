@@ -22,6 +22,11 @@ function AppContent() {
 
   useEffect(() => {
     try {
+      const ExpoDevMenu = requireOptionalNativeModule('ExpoDevMenu') as
+        | { setToolsButtonVisible?: (visible: boolean) => Promise<void> }
+        | undefined;
+      ExpoDevMenu?.setToolsButtonVisible?.(false);
+
       const DevMenuPreferences = requireOptionalNativeModule('DevMenuPreferences') as
         | { setPreferencesAsync: (prefs: { showFloatingActionButton: boolean }) => Promise<void> }
         | undefined;
@@ -29,7 +34,7 @@ function AppContent() {
         showFloatingActionButton: false,
       });
     } catch {
-      // DevMenuPreferences not present in web or standard builds
+      // DevMenu not present in web or standard production builds
     }
   }, []);
 
