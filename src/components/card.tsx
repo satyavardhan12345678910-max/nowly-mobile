@@ -11,7 +11,7 @@ import {
 import { Borders, Radii, Shadows, Spacing, type ThemeColor } from '@/constants/theme';
 import { useDesignTokens } from '@/hooks/use-theme';
 
-export type CardVariant = 'elevated' | 'outlined' | 'neutral' | 'subtle';
+export type CardVariant = 'elevated' | 'outlined' | 'neutral' | 'subtle' | 'mint';
 
 export type CardProps = PropsWithChildren<
   Omit<ViewProps, 'style'> & {
@@ -69,6 +69,11 @@ export function Card({
       borderW = Borders.thin;
       borderC = colors.border;
       break;
+    case 'mint':
+      bg = colors.surfaceHighlighted;
+      borderW = Borders.thin;
+      borderC = colors.accentBorder;
+      break;
     case 'outlined':
     default:
       bg = colors.card;
@@ -76,6 +81,7 @@ export function Card({
       borderC = colors.border;
       break;
   }
+
 
   if (backgroundColor) {
     bg = colors[backgroundColor as ThemeColor] ?? backgroundColor;

@@ -13,6 +13,7 @@ import { useDesignTokens } from '@/hooks/use-theme';
 
 import { ThemedText } from './themed-text';
 
+
 export type ThemedTextInputProps = TextInputProps & {
   label?: string;
   error?: string;
@@ -21,7 +22,7 @@ export type ThemedTextInputProps = TextInputProps & {
   rightIcon?: React.ReactNode;
   containerStyle?: ViewStyle;
   inputStyle?: TextStyle;
-  variant?: 'filled' | 'outlined';
+  variant?: 'pill' | 'filled' | 'outlined';
 };
 
 export function ThemedTextInput({
@@ -32,10 +33,11 @@ export function ThemedTextInput({
   rightIcon,
   containerStyle,
   inputStyle,
-  variant = 'filled',
+  variant = 'pill',
   onFocus,
   onBlur,
   editable = true,
+  placeholderTextColor,
   ...textInputProps
 }: ThemedTextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -43,14 +45,27 @@ export function ThemedTextInput({
 
   const hasError = Boolean(error);
 
+  const defaultBorderColor =
+    variant === 'pill' ? colors.borderInput : colors.border;
+
   const borderColor = hasError
     ? colors.error
     : isFocused
       ? colors.borderFocused
-      : colors.border;
+      : defaultBorderColor;
 
   const backgroundColor =
-    variant === 'filled' ? colors.backgroundNeutral : colors.background;
+    variant === 'outlined'
+      ? colors.background
+      : colors.backgroundInput;
+
+  const borderRadius =
+    variant === 'pill'
+      ? Radii.pill
+      : Radii.lg;
+
+  const resolvedPlaceholderColor =
+    placeholderTextColor ?? colors.textPlaceholder;
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -67,7 +82,7 @@ export function ThemedTextInput({
             backgroundColor,
             borderColor,
             borderWidth: isFocused || hasError ? Borders.thick : Borders.thin,
-            borderRadius: Radii.lg,
+            borderRadius,
             opacity: editable ? 1 : 0.6,
           },
         ]}>
@@ -76,13 +91,13 @@ export function ThemedTextInput({
         <TextInput
           accessibilityLabel={label}
           editable={editable}
-          placeholderTextColor={colors.textTertiary}
+          placeholderTextColor={resolvedPlaceholderColor}
           style={[
             styles.input,
             {
               color: colors.textPrimary,
               fontFamily: Fonts.sans,
-              fontSize: FontSizes.md,
+              fontSize: FontSizes.input,
             },
             inputStyle,
           ]}
@@ -125,18 +140,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.md,
-    minHeight: 50,
+    minHeight: 52,
+    height: 52,
   },
   input: {
     flex: 1,
-    paddingVertical: Spacing.sm,
+    paddingVertical: 0,
   },
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: Spacing.xs,
   },
   feedbackText: {
     marginTop: Spacing.xs,
     paddingHorizontal: Spacing.xs,
   },
 });
+

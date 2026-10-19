@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { BottomTabInset, MaxContentWidth, Spacing, type ThemeColor } from '@/constants/theme';
+import { BottomTabInset, Layout, MaxContentWidth, Spacing, type ThemeColor } from '@/constants/theme';
 import { useDesignTokens } from '@/hooks/use-theme';
 
 export type ScreenContainerProps = PropsWithChildren<{
@@ -22,6 +22,8 @@ export type ScreenContainerProps = PropsWithChildren<{
   style?: ViewStyle;
   contentContainerStyle?: ViewStyle;
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps'];
+  maxWidth?: number;
+  formMode?: boolean;
   edges?: ('top' | 'bottom' | 'left' | 'right')[];
 }>;
 
@@ -34,7 +36,10 @@ export function ScreenContainer({
   style,
   contentContainerStyle,
   keyboardShouldPersistTaps = 'handled',
+  maxWidth,
+  formMode = false,
 }: ScreenContainerProps) {
+
   const insets = useSafeAreaInsets();
   const { colors, isDark } = useDesignTokens();
 
@@ -62,11 +67,20 @@ export function ScreenContainer({
     paddingRight: Math.max(insets.right, horizontalPadding),
   };
 
+  const resolvedMaxWidth =
+    maxWidth ?? (formMode ? Layout.maxFormWidth : MaxContentWidth);
+
   const innerContent = (
-    <View style={[styles.innerContent, contentContainerStyle]}>
+    <View
+      style={[
+        styles.innerContent,
+        { maxWidth: resolvedMaxWidth },
+        contentContainerStyle,
+      ]}>
       {children}
     </View>
   );
+
 
   return (
     <KeyboardAvoidingView

@@ -2,6 +2,7 @@ import {
   Borders,
   Colors,
   FontSizes,
+  Layout,
   Radii,
   Shadows,
   Spacing,
@@ -21,7 +22,7 @@ export function useTheme(): ThemeColors {
 }
 
 /**
- * Hook to access complete design system tokens (colors, spacing, radii, borders, shadows, typography).
+ * Hook to access complete design system tokens (colors, spacing, radii, borders, shadows, typography, layout).
  */
 export function useDesignTokens() {
   const scheme = useColorScheme();
@@ -35,8 +36,10 @@ export function useDesignTokens() {
     shadows: Shadows,
     typography: Typography,
     fontSizes: FontSizes,
+    layout: Layout,
     colorScheme: theme,
     isDark: theme === 'dark',
   };
 }
+
 

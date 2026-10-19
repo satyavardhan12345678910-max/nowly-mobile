@@ -4,15 +4,23 @@ import { Fonts, FontWeights, type ThemeColor, Typography } from '@/constants/the
 import { useTheme } from '@/hooks/use-theme';
 
 export type TypographyVariant =
+  | 'wordmark'
+  | 'heroHeading'
   | 'h1'
   | 'h2'
   | 'h3'
   | 'body'
   | 'bodyMedium'
   | 'bodySmall'
+  | 'bodySmallMedium'
   | 'label'
   | 'caption'
+  | 'captionSmall'
   | 'button'
+  | 'buttonSm'
+  | 'buttonLg'
+  | 'input'
+  | 'overline'
   | 'default'
   | 'title'
   | 'small'
@@ -73,6 +81,18 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.sans,
   },
   // Nowly Typography Hierarchy
+  wordmark: {
+    fontSize: Typography.wordmark.fontSize,
+    lineHeight: Typography.wordmark.lineHeight,
+    fontWeight: Typography.wordmark.fontWeight,
+    letterSpacing: Typography.wordmark.letterSpacing,
+  },
+  heroHeading: {
+    fontSize: Typography.heroHeading.fontSize,
+    lineHeight: Typography.heroHeading.lineHeight,
+    fontWeight: Typography.heroHeading.fontWeight,
+    letterSpacing: Typography.heroHeading.letterSpacing,
+  },
   h1: {
     fontSize: Typography.h1.fontSize,
     lineHeight: Typography.h1.lineHeight,
@@ -106,6 +126,11 @@ const styles = StyleSheet.create({
     lineHeight: Typography.bodySmall.lineHeight,
     fontWeight: Typography.bodySmall.fontWeight,
   },
+  bodySmallMedium: {
+    fontSize: Typography.bodySmallMedium.fontSize,
+    lineHeight: Typography.bodySmallMedium.lineHeight,
+    fontWeight: Typography.bodySmallMedium.fontWeight,
+  },
   label: {
     fontSize: Typography.label.fontSize,
     lineHeight: Typography.label.lineHeight,
@@ -116,10 +141,36 @@ const styles = StyleSheet.create({
     lineHeight: Typography.caption.lineHeight,
     fontWeight: Typography.caption.fontWeight,
   },
+  captionSmall: {
+    fontSize: Typography.captionSmall.fontSize,
+    lineHeight: Typography.captionSmall.lineHeight,
+    fontWeight: Typography.captionSmall.fontWeight,
+  },
   button: {
     fontSize: Typography.button.fontSize,
     lineHeight: Typography.button.lineHeight,
     fontWeight: Typography.button.fontWeight,
+  },
+  buttonSm: {
+    fontSize: Typography.buttonSm.fontSize,
+    lineHeight: Typography.buttonSm.lineHeight,
+    fontWeight: Typography.buttonSm.fontWeight,
+  },
+  buttonLg: {
+    fontSize: Typography.buttonLg.fontSize,
+    lineHeight: Typography.buttonLg.lineHeight,
+    fontWeight: Typography.buttonLg.fontWeight,
+  },
+  input: {
+    fontSize: Typography.input.fontSize,
+    lineHeight: Typography.input.lineHeight,
+    fontWeight: Typography.input.fontWeight,
+  },
+  overline: {
+    fontSize: Typography.overline.fontSize,
+    lineHeight: Typography.overline.lineHeight,
+    fontWeight: Typography.overline.fontWeight,
+    letterSpacing: Typography.overline.letterSpacing,
   },
 
   // Legacy variants maintained for compatibility

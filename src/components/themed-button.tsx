@@ -8,12 +8,20 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import { Borders, FontWeights, Radii, Spacing, Typography } from '@/constants/theme';
+import { Borders, FontWeights, Radii, Shadows, Spacing, Typography } from '@/constants/theme';
 import { useDesignTokens } from '@/hooks/use-theme';
 
 import { ThemedText } from './themed-text';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';
+
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'outline'
+  | 'ghost'
+  | 'google';
+
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export type ThemedButtonProps = Omit<PressableProps, 'style'> & {
@@ -22,6 +30,7 @@ export type ThemedButtonProps = Omit<PressableProps, 'style'> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   pill?: boolean;
+  withShadow?: boolean;
   fullWidth?: boolean;
   loading?: boolean;
   leftIcon?: ReactNode;
@@ -36,6 +45,7 @@ export function ThemedButton({
   variant = 'primary',
   size = 'md',
   pill = true,
+  withShadow,
   fullWidth = false,
   loading = false,
   disabled = false,
@@ -55,18 +65,27 @@ export function ThemedButton({
   let textColor: string = colors.primaryForeground;
   let borderWidth: number = Borders.none;
   let borderColor: string = 'transparent';
+  let defaultShadow = false;
 
   switch (variant) {
     case 'secondary':
-      backgroundColor = colors.backgroundNeutral;
-      pressedBackgroundColor = colors.border;
+      backgroundColor = colors.backgroundInput;
+      pressedBackgroundColor = colors.backgroundPressed;
       textColor = colors.textPrimary;
       borderWidth = Borders.thin;
-      borderColor = colors.border;
+      borderColor = colors.borderInput;
+      break;
+    case 'google':
+      backgroundColor = colors.backgroundInput;
+      pressedBackgroundColor = colors.backgroundPressed;
+      textColor = colors.textPrimary;
+      borderWidth = Borders.thin;
+      borderColor = colors.borderInput;
       break;
     case 'accent':
       backgroundColor = colors.accent;
-      pressedBackgroundColor = colors.accentForeground === '#FFFFFF' ? '#0D9668' : colors.accentLight;
+      pressedBackgroundColor =
+        colors.accentForeground === '#FFFFFF' ? '#0D9668' : colors.accentLight;
       textColor = colors.accentForeground;
       break;
     case 'outline':
@@ -86,6 +105,7 @@ export function ThemedButton({
       backgroundColor = colors.primary;
       pressedBackgroundColor = colors.primaryPressed;
       textColor = colors.primaryForeground;
+      defaultShadow = true;
       break;
   }
 
@@ -97,17 +117,18 @@ export function ThemedButton({
 
   if (size === 'sm') {
     height = 36;
-    horizontalPadding = Spacing.sm;
+    horizontalPadding = Spacing.compact;
     fontSize = 13;
     iconGap = Spacing.xs;
   } else if (size === 'lg') {
-    height = 54;
+    height = 52;
     horizontalPadding = Spacing.lg;
-    fontSize = 17;
+    fontSize = 16;
     iconGap = Spacing.sm;
   }
 
   const borderRadius = pill ? Radii.pill : Radii.lg;
+  const applyShadow = withShadow !== undefined ? withShadow : defaultShadow;
 
   const content = title ? (
     <ThemedText
@@ -142,7 +163,9 @@ export function ThemedButton({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel ?? (typeof title === 'string' ? title : undefined)}
+      accessibilityLabel={
+        accessibilityLabel ?? (typeof title === 'string' ? title : undefined)
+      }
       accessibilityState={{ disabled: isDisabled, busy: loading }}
       disabled={isDisabled}
       style={({ pressed }) => [
@@ -156,6 +179,7 @@ export function ThemedButton({
           borderColor,
           gap: iconGap,
         },
+        applyShadow && Shadows.button,
         fullWidth && styles.fullWidth,
         isDisabled && styles.disabled,
         style,
@@ -190,3 +214,4 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
+
