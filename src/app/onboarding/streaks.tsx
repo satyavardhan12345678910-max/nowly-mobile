@@ -18,8 +18,8 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 // Exact cropped illustration from the reference image
 const MOCKUP_IMAGE = require('@/../assets/images/nowly-streaks-badges-mockup.png');
-// Original crop dimensions: 453 x 485
-const MOCKUP_ASPECT_RATIO = 453 / 485;
+// High-resolution asset dimensions: 997 x 1024
+const MOCKUP_ASPECT_RATIO = 997 / 1024;
 
 export default function StreaksBadgesOnboardingScreen() {
   const insets = useSafeAreaInsets();
@@ -39,7 +39,7 @@ export default function StreaksBadgesOnboardingScreen() {
   };
 
   const handleNext = () => {
-    router.push('/onboarding/intention');
+    router.push('/onboarding/rescue');
   };
 
   const handleSkip = () => {

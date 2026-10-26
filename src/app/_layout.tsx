@@ -65,6 +65,7 @@ function AppContent() {
           <Stack.Screen name="onboarding/circle" />
           <Stack.Screen name="onboarding/goals" />
           <Stack.Screen name="onboarding/streaks" />
+          <Stack.Screen name="onboarding/rescue" />
           <Stack.Screen name="onboarding/intention" />
           <Stack.Screen name="onboarding/insights" />
           <Stack.Screen name="onboarding/people" />
