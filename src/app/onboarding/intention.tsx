@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { Image } from 'expo-image';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather, Ionicons } from '@expo/vector-icons';
 
@@ -82,9 +82,14 @@ const DEFAULT_SELECTED: IntentionId[] = ['stay_close', 'goals', 'manage_time'];
 
 export default function IntentionScreen() {
   const insets = useSafeAreaInsets();
-  const [selected, setSelected] = useState<Set<IntentionId>>(
-    () => new Set(DEFAULT_SELECTED),
-  );
+  const params = useLocalSearchParams<{ intentions?: string }>();
+  const [selected, setSelected] = useState<Set<IntentionId>>(() => {
+    if (params.intentions) {
+      const items = params.intentions.split(',').filter(Boolean) as IntentionId[];
+      if (items.length > 0) return new Set(items);
+    }
+    return new Set(DEFAULT_SELECTED);
+  });
 
   // Hardware back button support for Android
   useEffect(() => {
@@ -109,7 +114,10 @@ export default function IntentionScreen() {
   };
 
   const handleContinue = () => {
-    // Next onboarding step will be connected in a future patch
+    router.push({
+      pathname: '/onboarding/insights',
+      params: { intentions: Array.from(selected).join(',') },
+    });
   };
 
   return (

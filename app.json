@@ -35,7 +35,26 @@
           "imageWidth": 76
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow Nowly to access your contacts to help you find and invite your close friends."
+        }
+      ],
+      [
+        "react-native-share",
+        {
+          "ios": [
+            "whatsapp"
+          ],
+          "android": [
+            "com.whatsapp"
+          ],
+          "enableBase64ShareAndroid": true
+        }
+      ],
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true,

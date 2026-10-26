@@ -32,7 +32,8 @@ export default function OnboardingManifestoScreen() {
   const [activeTile, setActiveTile] = useState<'glance' | 'friends' | 'ping' | 'live'>('live');
 
   const handleNext = () => {
-    router.push('/onboarding/profile');
+    // Temporarily routing directly to How Nowly Works (/onboarding/circle) for onboarding UI testing
+    router.push('/onboarding/circle');
   };
 
   return (

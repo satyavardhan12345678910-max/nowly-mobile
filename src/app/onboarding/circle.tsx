@@ -40,7 +40,7 @@ export default function HowNowlyWorksScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/onboarding/intention');
+    router.push('/onboarding/goals');
   };
 
   const userAvatarSource = user?.user_metadata?.avatar_url
