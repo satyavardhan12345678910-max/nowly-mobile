@@ -39,7 +39,10 @@ function AppContent() {
   }, []);
 
   const isDedicatedRoute =
-    pathname.startsWith('/onboarding') || pathname.startsWith('/auth');
+    pathname.startsWith('/onboarding') ||
+    pathname.startsWith('/auth') ||
+    pathname === '/paywall' ||
+    pathname.startsWith('/paywall');
 
   const navigationTheme = {
     ...(isDark ? DarkTheme : DefaultTheme),
@@ -60,7 +63,16 @@ function AppContent() {
       <AnimatedSplashOverlay />
       {isDedicatedRoute ? (
         <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="paywall"
+            options={{
+              presentation: 'modal',
+              animation: 'slide_from_bottom',
+            }}
+          />
           <Stack.Screen name="onboarding/manifesto" />
+          <Stack.Screen name="onboarding/pet" />
+          <Stack.Screen name="onboarding/activity" />
           <Stack.Screen name="onboarding/profile" />
           <Stack.Screen name="onboarding/circle" />
           <Stack.Screen name="onboarding/goals" />

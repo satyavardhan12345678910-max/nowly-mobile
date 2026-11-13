@@ -1,3 +1,7 @@
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { requireOptionalNativeModule } from 'expo';
+import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -9,28 +13,22 @@ import {
   Linking,
   Platform,
   Pressable,
-  Share,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
-import { Image } from 'expo-image';
-import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { requireOptionalNativeModule } from 'expo';
 
 import { useAuth } from '@/context/auth-context';
-import { ProfileRecord } from '@/lib/profile';
 import {
   fetchFriendRequestStatuses,
-  NOWLY_INVITE_MESSAGE,
   NOWLY_INVITE_URL,
   searchProfiles,
   sendFriendRequest,
-  shareNowlyInvite,
+  shareNowlyInvite
 } from '@/lib/friends';
+import { ProfileRecord } from '@/lib/profile';
 
 // ────────────────────────────────────────────────────────────────────────────
 // Native Module Availability Checkers
@@ -232,7 +230,7 @@ export default function FindYourPeopleScreen() {
               {
                 text: 'Open Settings',
                 onPress: () => {
-                  Linking.openSettings().catch(() => {});
+                  Linking.openSettings().catch(() => { });
                 },
               },
             ]

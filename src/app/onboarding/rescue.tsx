@@ -32,11 +32,17 @@ export default function StreakRescueOnboardingScreen() {
   };
 
   const handleNext = () => {
-    router.push('/onboarding/intention');
+    router.push({
+      pathname: '/paywall',
+      params: { from: 'onboarding' },
+    } as any);
   };
 
   const handleSkip = () => {
-    router.push('/onboarding/intention');
+    router.push({
+      pathname: '/paywall',
+      params: { from: 'onboarding' },
+    } as any);
   };
 
   const handleSaveMyStreak = () => {

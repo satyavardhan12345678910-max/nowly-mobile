@@ -5,6 +5,10 @@ export interface ProfileRecord {
   display_name: string | null;
   avatar_url: string | null;
   username?: string | null;
+  selected_pet_id?: string | null;
+  pet_selected_at?: string | null;
+  current_activity?: string | null;
+  activity_selected_at?: string | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -16,7 +20,7 @@ export async function fetchProfile(userId: string): Promise<ProfileRecord | null
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, display_name, avatar_url, created_at, updated_at')
+      .select('id, display_name, avatar_url, selected_pet_id, pet_selected_at, current_activity, activity_selected_at, created_at, updated_at')
       .eq('id', userId)
       .maybeSingle();
 

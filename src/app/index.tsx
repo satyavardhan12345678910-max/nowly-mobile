@@ -112,6 +112,63 @@ export default function HomeScreen() {
           />
         </Card>
 
+        {/* Pet Selection Onboarding Card */}
+        <Card variant="mint" padding="md" radius="xl" style={styles.card}>
+          <View style={styles.progressHeader}>
+            <ThemedText variant="label">Choose Your Pet</ThemedText>
+            <ThemedText variant="caption" themeColor="accentDark" weight="semiBold">
+              Companion System
+            </ThemedText>
+          </View>
+          <ThemedText variant="bodySmall" themeColor="textSecondary">
+            Interactive companion pet selection with Normal, Uncommon, and Mythical tiers, real-time preview, and Supabase persistence.
+          </ThemedText>
+          <ThemedButton
+            title="Open Pet Selection  →"
+            variant="primary"
+            size="sm"
+            onPress={() => router.push('/onboarding/pet' as any)}
+          />
+        </Card>
+
+        {/* Activity Selection Onboarding Card */}
+        <Card variant="mint" padding="md" radius="xl" style={styles.card}>
+          <View style={styles.progressHeader}>
+            <ThemedText variant="label">What are you up to?</ThemedText>
+            <ThemedText variant="caption" themeColor="accentDark" weight="semiBold">
+              Activity System
+            </ThemedText>
+          </View>
+          <ThemedText variant="bodySmall" themeColor="textSecondary">
+            3-column companion activity selection featuring Red Panda scene illustrations, real-time selection, and persistence.
+          </ThemedText>
+          <ThemedButton
+            title="Open Activity Selection  →"
+            variant="primary"
+            size="sm"
+            onPress={() => router.push('/onboarding/activity' as any)}
+          />
+        </Card>
+
+        {/* Nowly+ Paywall Preview Card */}
+        <Card variant="mint" padding="md" radius="xl" style={styles.card}>
+          <View style={styles.progressHeader}>
+            <ThemedText variant="label">Nowly+ Subscription</ThemedText>
+            <ThemedText variant="caption" themeColor="accentDark" weight="semiBold">
+              Paywall
+            </ThemedText>
+          </View>
+          <ThemedText variant="bodySmall" themeColor="textSecondary">
+            Preview the new Nowly+ subscription paywall with interactive plan selection, benefits, and trial actions.
+          </ThemedText>
+          <ThemedButton
+            title="Open Nowly+ Paywall  →"
+            variant="primary"
+            size="sm"
+            onPress={() => router.push('/paywall')}
+          />
+        </Card>
+
         {/* Development Environment Hints */}
 
         <Card variant="subtle" padding="md" radius="xl" style={styles.card}>
